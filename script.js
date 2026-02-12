@@ -36,28 +36,37 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // Definimos un margen de seguridad de 20px para que no toque los bordes
-    const margin = 20;
-    const maxX = window.innerWidth - button.offsetWidth - margin;
-    const maxY = window.innerHeight - button.offsetHeight - margin;
+    // Usamos el tamaño de la pantalla (lo que se ve)
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     
-    // Generamos la posición asegurándonos de que no sea menor al margen
-    let newX = Math.random() * (maxX - margin) + margin;
-    let newY = Math.random() * (maxY - margin) + margin;
+    // Margen de seguridad (25px)
+    const margin = 25;
     
-    // Aplicamos la posición
+    // Restamos el tamaño del botón para que no se salga por la derecha/abajo
+    const maxX = vw - button.offsetWidth - margin;
+    const maxY = vh - button.offsetHeight - margin;
+    
+    // Generamos una posición aleatoria segura
+    const newX = Math.floor(Math.random() * (maxX - margin)) + margin;
+    const newY = Math.floor(Math.random() * (maxY - margin)) + margin;
+    
+    // position: fixed es la CLAVE. Saca el botón del contenedor.
     button.style.position = 'fixed';
     button.style.left = newX + 'px';
     button.style.top = newY + 'px';
-    button.style.zIndex = '9999'; // Para que siempre esté por encima de todo
+    button.style.zIndex = '9999'; // Siempre encima de todo
     button.style.transition = 'all 0.3s ease-out';
 }
 
 const noButton = document.getElementById('noButton');
 if (noButton) {
     noButton.addEventListener('mouseenter', () => escapeButton(noButton));
-    noButton.addEventListener('click', (e) => { e.preventDefault(); escapeButton(noButton); });
-    noButton.addEventListener('touchstart', (e) => { e.preventDefault(); escapeButton(noButton); });
+    // Agregamos touchstart con preventDefault para móviles
+    noButton.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); 
+        escapeButton(noButton); 
+    });
 }
 
 // ============================================

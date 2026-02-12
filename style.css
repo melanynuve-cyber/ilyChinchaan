@@ -10,11 +10,6 @@
     --box-bg: rgba(139, 90, 125, 0.75);
     --box-border: #d4a5d4;
     --text-color: #ffffff;
-    --shadow-pixel: 
-        4px 0 0 #d4a5d4,
-        0 4px 0 #d4a5d4,
-        -4px 0 0 #d4a5d4,
-        0 -4px 0 #d4a5d4;
 }
 
 * {
@@ -25,7 +20,7 @@
 
 body {
     font-family: 'Press Start 2P', monospace;
-    overflow: hidden;
+    overflow: hidden; /* ESTO ES VITAL: Evita las barras de scroll en toda la página */
     min-height: 100vh;
     position: relative;
     image-rendering: pixelated;
@@ -33,21 +28,17 @@ body {
 }
 
 /* ============================================
-   FONDOS DEGRADADOS POR PÁGINA - COLORES PASTELES
+   FONDOS DEGRADADOS POR PÁGINA
    ============================================ */
-
-/* Index - Rosa pastel */
 body {
     background: linear-gradient(135deg, #ffd3e1 0%, #ffe6f0 50%, #ffc4d6 100%);
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">💘</text></svg>') 16 16, auto;
 }
 
-/* Question - Rosa pastel más claro */
 body:has([title*="San Valentín"]) {
     background: linear-gradient(135deg, #ffc9e0 0%, #ffd9ed 50%, #ffe0f0 100%);
 }
 
-/* Accepted - Rosa pastel suave celebración */
 body:has([title*="Gracias"]) {
     background: linear-gradient(135deg, #ffe0f0 0%, #fff0f8 50%, #ffe6f2 100%);
 }
@@ -56,28 +47,14 @@ body:has([title*="Gracias"]) {
    CORAZONES FLOTANTES PIXEL ART
    ============================================ */
 @keyframes floatHeart {
-    0% {
-        transform: translateY(0) translateX(0) rotate(0deg) scale(1);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    50% {
-        transform: translateY(50vh) translateX(30px) rotate(180deg) scale(1.2);
-    }
-    90% {
-        opacity: 0.4;
-    }
-    100% {
-        transform: translateY(110vh) translateX(-20px) rotate(360deg) scale(0.8);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); opacity: 0; }
+    10% { opacity: 0.8; }
+    50% { transform: translateY(50vh) translateX(30px) rotate(180deg) scale(1.2); }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(110vh) translateX(-20px) rotate(360deg) scale(0.8); opacity: 0; }
 }
 
-/* Crear múltiples corazones con CSS puro */
-body::before,
-body::after {
+body::before, body::after {
     font-family: Arial, sans-serif;
     position: fixed;
     font-size: 30px;
@@ -86,19 +63,8 @@ body::after {
     z-index: 1;
 }
 
-body::before {
-    content: '♥';
-    top: -50px;
-    left: 15%;
-    animation: floatHeart 10s infinite ease-in-out;
-}
-
-body::after {
-    content: '♥';
-    top: -50px;
-    left: 75%;
-    animation: floatHeart 12s infinite ease-in-out 2s;
-}
+body::before { content: '♥'; top: -50px; left: 15%; animation: floatHeart 10s infinite ease-in-out; }
+body::after { content: '♥'; top: -50px; left: 75%; animation: floatHeart 12s infinite ease-in-out 2s; }
 
 /* ============================================
    LAYOUT CENTRADO
@@ -112,7 +78,7 @@ body::after {
 }
 
 /* ============================================
-   CAJA CONTAINER - ESTILO PIXEL ART
+   CAJA CONTAINER - ARREGLADA
    ============================================ */
 .container {
     background: var(--box-bg);
@@ -128,43 +94,23 @@ body::after {
         8px 8px 0 0 rgba(212, 165, 212, 0.6),
         12px 12px 0 0 rgba(139, 90, 125, 0.4);
     animation: fadeInBox 0.8s ease-out;
-    max-height: 85vh; 
-    overflow-y: hidden;
+    
+    /* CAMBIO IMPORTANTE: */
+    /* visible: deja que el botón salga de la caja */
+    /* max-height: quitamos límite para que el texto no se corte */
+    overflow: visible; 
 }
 
 /* Efecto de esquinas pixel art */
-.container::before,
-.container::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 4px solid var(--box-border);
+.container::before, .container::after {
+    content: ''; position: absolute; width: 20px; height: 20px; border: 4px solid var(--box-border);
 }
-
-.container::before {
-    top: -4px;
-    left: -4px;
-    border-right: none;
-    border-bottom: none;
-}
-
-.container::after {
-    bottom: -4px;
-    right: -4px;
-    border-left: none;
-    border-top: none;
-}
+.container::before { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+.container::after { bottom: -4px; right: -4px; border-left: none; border-top: none; }
 
 @keyframes fadeInBox {
-    from {
-        opacity: 0;
-        transform: scale(0.8) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* ============================================
@@ -175,42 +121,26 @@ h1 {
     line-height: 1.6;
     margin-bottom: 30px;
     text-align: center;
-    text-shadow: 
-        2px 2px 0 rgba(139, 90, 125, 0.8),
-        -1px -1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 2px 2px 0 rgba(139, 90, 125, 0.8);
     animation: glowText 2s ease-in-out infinite alternate;
 }
 
 @keyframes glowText {
-    from {
-        text-shadow: 
-            2px 2px 0 rgba(139, 90, 125, 0.8),
-            0 0 10px rgba(212, 165, 212, 0.5);
-    }
-    to {
-        text-shadow: 
-            2px 2px 0 rgba(139, 90, 125, 0.8),
-            0 0 20px rgba(212, 165, 212, 0.9),
-            0 0 30px rgba(255, 255, 255, 0.6);
-    }
+    from { text-shadow: 2px 2px 0 rgba(139, 90, 125, 0.8), 0 0 10px rgba(212, 165, 212, 0.5); }
+    to { text-shadow: 2px 2px 0 rgba(139, 90, 125, 0.8), 0 0 20px rgba(212, 165, 212, 0.9); }
 }
 
 h1.big {
     font-size: clamp(1.2rem, 4vw, 2rem);
     animation: scaleIn 1s ease-out, glowText 2s ease-in-out infinite alternate 1s;
-    white-space: normal; 
-    word-wrap: break-word;
+    /* CAMBIO: Esto evita que el texto se salga de lado en el celular */
+    white-space: normal !important; 
+    word-wrap: break-word !important;
 }
 
 @keyframes scaleIn {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 p {
@@ -222,34 +152,19 @@ p {
 }
 
 @keyframes pulse {
-    0%, 100% { 
-        opacity: 0.85; 
-    }
-    50% { 
-        opacity: 1; 
-    }
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
 }
 
 /* ============================================
-   BOTONES ESTILO RETRO
+   BOTONES
    ============================================ */
 .buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin-top: 40px;
-    position: relative;
+    display: flex; justify-content: center; align-items: center;
+    gap: 30px; margin-top: 40px; position: relative;
 }
 
-.buttons a {
-    text-decoration: none;
-    flex: 1;
-    min-width: 150px;
-    display: inline-block;
-    width: auto;
-    max-width: 200px;
-}
+.buttons a { text-decoration: none; flex: 1; min-width: 150px; display: inline-block; width: auto; max-width: 200px; }
 
 button {
     font-family: 'Press Start 2P', monospace;
@@ -259,230 +174,80 @@ button {
     background: rgba(212, 165, 212, 0.3);
     color: var(--text-color);
     cursor: pointer;
-    width: 100%;
-    position: relative;
-    transition: all 0.1s;
-    text-shadow: 2px 2px 0 rgba(139, 90, 125, 0.5);
-    box-shadow: 
-        0 0 0 4px rgba(139, 90, 125, 0.4),
-        6px 6px 0 0 rgba(212, 165, 212, 0.5);
+    width: 100%; position: relative; transition: all 0.1s;
+    box-shadow: 0 0 0 4px rgba(139, 90, 125, 0.4), 6px 6px 0 0 rgba(212, 165, 212, 0.5);
 }
 
-button:active {
-    transform: translate(3px, 3px);
-    box-shadow: 
-        0 0 0 4px rgba(139, 90, 125, 0.4),
-        3px 3px 0 0 rgba(212, 165, 212, 0.5);
-}
+button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 4px rgba(139, 90, 125, 0.4), 3px 3px 0 0 rgba(212, 165, 212, 0.5); }
 
-/* Botón YES - Verde success */
 .yes {
     background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-    border-color: #00ff88;
+    border-color: #00ff88; width: 180px;
     animation: buttonGlowYes 1.5s ease-in-out infinite alternate;
-    width: 180px;
 }
 
 .yes:hover {
     background: linear-gradient(135deg, #00ff88 0%, #00ffcc 100%);
     transform: scale(1.05);
-    box-shadow: 
-        0 0 0 4px rgba(139, 90, 125, 0.4),
-        6px 6px 0 0 rgba(212, 165, 212, 0.5),
-        0 0 20px rgba(0, 255, 136, 0.6);
 }
 
 @keyframes buttonGlowYes {
-    from {
-        box-shadow: 
-            0 0 0 4px rgba(139, 90, 125, 0.4),
-            6px 6px 0 0 rgba(212, 165, 212, 0.5),
-            0 0 10px rgba(0, 255, 136, 0.3);
-    }
-    to {
-        box-shadow: 
-            0 0 0 4px rgba(139, 90, 125, 0.4),
-            6px 6px 0 0 rgba(212, 165, 212, 0.5),
-            0 0 25px rgba(0, 255, 136, 0.6);
-    }
+    from { box-shadow: 0 0 0 4px rgba(139, 90, 125, 0.4), 6px 6px 0 0 rgba(212, 165, 212, 0.5), 0 0 10px rgba(0, 255, 136, 0.3); }
+    to { box-shadow: 0 0 0 4px rgba(139, 90, 125, 0.4), 6px 6px 0 0 rgba(212, 165, 212, 0.5), 0 0 25px rgba(0, 255, 136, 0.6); }
 }
 
-/* Botón NO - Rojo danger */
 .no {
     background: linear-gradient(135deg, #d63031 0%, #e17055 100%);
-    border-color: #ff6b6b;
-    width: 180px;
+    border-color: #ff6b6b; width: 180px;
 }
-
-/* No añadir hover al botón No para que no se alargue */
-.no:hover {
-    cursor: pointer;
-}
-
-
-/* ============================================
-   ANIMACIONES ADICIONALES
-   ============================================ */
-
-/* Partículas pixel flotantes */
-@keyframes pixelFloat {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translateY(-20px) rotate(180deg);
-        opacity: 1;
-    }
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 768px) {
-    .container {
-        padding: 30px 20px;
-        box-shadow: 
-            0 0 0 3px rgba(139, 90, 125, 0.5),
-            6px 6px 0 0 rgba(212, 165, 212, 0.6),
-            8px 8px 0 0 rgba(139, 90, 125, 0.4);
-    }
-    
-    h1 {
-        font-size: clamp(1rem, 4vw, 1.5rem);
-        line-height: 1.8;
-    }
-    
-    .buttons {
-        flex-direction: column;
-    }
-    
-    .buttons a {
-        width: 100%;
-    }
-    
-    button {
-        padding: 15px 20px;
-        font-size: clamp(0.6rem, 2vw, 0.9rem);
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 20px 15px;
-        border: 3px solid var(--box-border);
-    }
-    
-    h1 {
-        margin-bottom: 20px;
-    }
-    
-    p {
-        font-size: clamp(0.6rem, 2vw, 0.8rem);
-        line-height: 1.6;
-    }
-    
-    button {
-        padding: 12px 15px;
-    }
-}
+.no:hover { cursor: pointer; }
 
 /* ============================================
    EFECTOS ESPECIALES PARA PÁGINA ACCEPTED
    ============================================ */
 body:has([title*="Gracias"]) .container {
+    /* CAMBIO: Solo 'celebration', borré 'shake' para que no vibre */
     animation: celebration 1s ease-out forwards;
 }
 
 @keyframes celebration {
-    0% {
-        transform: scale(0) rotate(-10deg);
-        opacity: 0;
-    }
-    70% {
-        transform: scale(1.1) rotate(5deg);
-    }
-    100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-    }
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    70% { transform: scale(1.1) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
-
-h1.big {
-    white-space: normal !important;
-    word-wrap: break-word !important;
-}
-
 
 /* ============================================
-   ESTELA DEL CURSOR ROSA CUTE
+   ESTELA DEL CURSOR
    ============================================ */
 .cursor-trail {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+    position: fixed; width: 10px; height: 10px; border-radius: 50%;
     background: radial-gradient(circle, #ffb3d9 0%, #ffc9e0 50%, transparent 70%);
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.8;
+    pointer-events: none; z-index: 9999; opacity: 0.8;
     animation: cursorFade 0.8s ease-out forwards;
 }
 
 @keyframes cursorFade {
-    0% {
-        transform: scale(1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2); opacity: 0; }
 }
 
-.buttons::after {
-    content: "";
-    flex: 1;
-    min-width: 150px;
-    max-width: 200px;
-}
-
-/* Estilo base para las pantallas */
+/* ============================================
+   PANTALLAS (SISTEMA DE NAVEGACIÓN)
+   ============================================ */
 .screen {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 10;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    align-items: center; justify-content: center; flex-direction: column; z-index: 10;
+    background: transparent;
 }
+.screen.active { display: flex; animation: fadeIn 0.5s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Solo la pantalla activa se muestra */
-.screen.active {
-    display: flex; /* Se vuelve visible */
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Ajuste para que se vea el degradado de fondo del body */
-.screen {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 10;
-    background: transparent; /* Asegúrate de que sea transparente */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .container { padding: 30px 20px; }
+    h1 { font-size: clamp(1rem, 4vw, 1.5rem); }
+    .buttons { flex-direction: column; }
+    button { width: 100%; }
 }
