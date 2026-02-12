@@ -2,41 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Andy 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="center">
-
-    <!-- 🎵 Música -->
-    <audio id="bgMusic" loop>
+<body> <audio id="bgMusic" loop>
         <source src="cancion.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Pantalla 1 -->
     <div id="screen1" class="screen active">
-        <h1>Hola Andy 💕</h1>
-        <p>Presiona cualquier tecla para comenzar...</p>
-    </div>
-
-    <!-- Pantalla 2 -->
-    <div id="screen2" class="screen">
-        <h1>¿Quieres ser mi San Valentín? 💘</h1>
-        <div class="buttons">
-            <button class="yes" onclick="accept()">Sí 💖</button>
-            <button class="no" id="noButton">No 😢</button>
+        <div class="container">
+            <h1>Hola Andy 💕</h1>
+            <p>Presiona cualquier tecla o haz clic para comenzar...</p>
         </div>
     </div>
 
-    <!-- Pantalla 3 -->
+    <div id="screen2" class="screen">
+        <div class="container">
+            <h1 title="San Valentín">¿Quieres ser mi San Valentín? 💘</h1>
+            <div class="buttons">
+                <button class="yes" onclick="showScreen('screen3')">Sí 💖</button>
+                <button class="no" id="noButton">No 😢</button>
+            </div>
+        </div>
+    </div>
+
     <div id="screen3" class="screen">
-        <h1 class="big">¡Gracias por aceptar!</h1>
-        <p>
-            No sé qué nos depare el futuro, pero quiero vivirlo contigo. 💗
-        </p>
-        
-        <p>
-            Te veo el Sabado a la 12pm en tu casita, te amo mucho 💞
-        </p>
+        <div class="container" title="Gracias">
+            <h1 class="big">¡Gracias por aceptar!</h1>
+            <p>No sé qué nos depare el futuro, pero quiero vivirlo contigo. 💗</p>
+            <p>Te veo el Sábado a la 12pm en tu casita, te amo mucho 💞</p>
+        </div>
     </div>
 
     <script src="script.js"></script>

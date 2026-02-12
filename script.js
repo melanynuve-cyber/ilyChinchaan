@@ -1,19 +1,26 @@
 // ============================================
-// 1. MÚSICA DE FONDO (VERSIÓN INTEGRADA)
+// 1. MÚSICA DE FONDO (CON FADE-IN)
 // ============================================
 document.addEventListener("DOMContentLoaded", function () {
     const music = document.getElementById("bgMusic");
     if (!music) return;
 
-    music.volume = 0.25; // Volumen suave
+    music.volume = 0;
 
     function startMusic() {
         if (!music.dataset.started) {
             music.play().then(() => {
                 music.dataset.started = "true";
+                // Efecto Fade-in suave
+                let fadeIn = setInterval(() => {
+                    if (music.volume < 0.25) {
+                        music.volume = Math.min(0.25, music.volume + 0.01);
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, 100);
             }).catch(() => {});
             
-            // Se activa con la primera interacción y ya no se repite este trigger
             document.removeEventListener("click", startMusic);
             document.removeEventListener("keydown", startMusic);
             document.removeEventListener("touchstart", startMusic);
@@ -59,32 +66,14 @@ function escapeButton(button) {
 
 const noButton = document.getElementById('noButton');
 if (noButton) {
-    noButton.textContent = 'No 😢';
     noButton.addEventListener('mouseenter', () => escapeButton(noButton));
     noButton.addEventListener('click', (e) => { e.preventDefault(); escapeButton(noButton); });
     noButton.addEventListener('touchstart', (e) => { e.preventDefault(); escapeButton(noButton); });
 }
 
 // ============================================
-// 3. EFECTOS VISUALES Y ANIMACIONES (INYECTADAS)
+// 3. EFECTOS VISUALES (LLUVIA Y ESTELA)
 // ============================================
-if (!document.getElementById('valentine-styles')) {
-    const style = document.createElement('style');
-    style.id = 'valentine-styles';
-    style.textContent = `
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-10px) rotate(-5deg); }
-            50% { transform: translateX(10px) rotate(5deg); }
-            75% { transform: translateX(-10px) rotate(-3deg); }
-        }
-        @keyframes sparkle {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(3) translateY(-20px); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-}
 
 // Lluvia de corazones
 function createHeartRain() {
@@ -124,31 +113,27 @@ document.addEventListener('mousemove', (e) => {
 });
 
 // ============================================
-// 4. LÓGICA PARA PÁGINA DE "SÍ" (ACCEPTED)
+// 4. CONFETI Y BRILLOS (PARA EL "SÍ")
 // ============================================
-// Solo se ejecuta si estamos en la parte del "SÍ"
-if (window.location.pathname.includes('accepted.html') || document.body.classList.contains('is-accepted')) {
-    function createPixelConfetti() {
-        const colors = ['#ff6b9d', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
-        for (let i = 0; i < 30; i++) {
+
+function createPixelConfetti() {
+    const colors = ['#ff6b9d', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.style.cssText = `position:fixed; width:8px; height:8px; z-index:999; pointer-events:none; transition:all 3s linear;`;
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '-10px';
+            document.body.appendChild(confetti);
             setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.style.cssText = `position:fixed; width:8px; height:8px; z-index:999; pointer-events:none; transition:all 3s linear;`;
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * window.innerWidth + 'px';
-                confetti.style.top = '-10px';
-                document.body.appendChild(confetti);
-                setTimeout(() => {
-                    confetti.style.top = window.innerHeight + 'px';
-                    confetti.style.transform = 'rotate(720deg)';
-                    confetti.style.opacity = '0';
-                }, 50);
-                setTimeout(() => confetti.remove(), 3100);
-            }, i * 100);
-        }
+                confetti.style.top = window.innerHeight + 'px';
+                confetti.style.transform = 'rotate(720deg)';
+                confetti.style.opacity = '0';
+            }, 50);
+            setTimeout(() => confetti.remove(), 3100);
+        }, i * 100);
     }
-    setTimeout(createPixelConfetti, 500);
-    setInterval(createPixelConfetti, 5000);
 }
 
 // Brillo en botón YES
@@ -166,3 +151,33 @@ if (yesButton) {
         }
     });
 }
+
+// ============================================
+// 5. NAVEGACIÓN ENTRE PANTALLAS
+// ============================================
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    
+    const nextScreen = document.getElementById(screenId);
+    if (nextScreen) {
+        nextScreen.classList.add('active');
+    }
+
+    if (screenId === 'screen3') {
+        createPixelConfetti();
+        // Repetir confeti cada 5 segundos en la pantalla final
+        setInterval(createPixelConfetti, 5000);
+    }
+}
+
+// Iniciar desde Pantalla 1
+document.addEventListener('keydown', () => {
+    const s1 = document.getElementById('screen1');
+    if (s1 && s1.classList.contains('active')) {
+        showScreen('screen2');
+    }
+});
+
+document.getElementById('screen1').addEventListener('click', () => {
+    showScreen('screen2');
+});
