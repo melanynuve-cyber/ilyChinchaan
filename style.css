@@ -235,6 +235,8 @@ p {
     margin-top: 30px;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .buttons a {
@@ -436,4 +438,11 @@ body:has([title*="Gracias"]) .container {
         transform: scale(2);
         opacity: 0;
     }
+}
+
+.buttons::after {
+    content: "";
+    flex: 1;
+    min-width: 150px;
+    max-width: 200px;
 }
