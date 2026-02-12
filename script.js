@@ -36,35 +36,52 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // 1. Definimos los límites de la "cancha" visible
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
+    // Usamos el tamaño de la pantalla visible
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     
+    // Margen de seguridad GRANDE (50px) para que no toque bordes
+    const margin = 50;
+    
+    // Restamos el tamaño del botón
     const btnWidth = button.offsetWidth;
     const btnHeight = button.offsetHeight;
-
-    // 2. Margen de seguridad GRANDE (50px) para evitar bordes curvos o barras del navegador
-    const safetyMargin = 50;
-
-    // 3. Calculamos el espacio máximo permitido para la esquina superior izquierda del botón
-    const maxLeft = containerWidth - btnWidth - safetyMargin;
-    const maxTop = containerHeight - btnHeight - safetyMargin;
-
-    // 4. Generamos posiciones aleatorias
-    let newLeft = Math.random() * maxLeft;
-    let newTop = Math.random() * maxTop;
-
-    // 5. "CLAMP" (Asegurar): Si el número es muy chico, forzamos el margen mínimo.
-    // Esto evita que se vaya a coordenadas negativas o muy pegadas al borde 0,0
-    newLeft = Math.max(safetyMargin, newLeft);
-    newTop = Math.max(safetyMargin, newTop);
-
-    // 6. Aplicamos
+    
+    // Calculamos el espacio disponible
+    const maxX = vw - btnWidth - margin;
+    const maxY = vh - btnHeight - margin;
+    
+    // Generamos posición aleatoria
+    let newX = Math.random() * maxX;
+    let newY = Math.random() * maxY;
+    
+    // "CLAMP": Forzamos a que el número esté dentro de los límites seguros
+    // Math.max asegura que no sea menor al margen
+    // Math.min asegura que no sea mayor al límite derecho/inferior
+    newX = Math.min(Math.max(margin, newX), maxX);
+    newY = Math.min(Math.max(margin, newY), maxY);
+    
+    // Aplicamos position: fixed para usar toda la pantalla
     button.style.position = 'fixed';
-    button.style.left = newLeft + 'px';
-    button.style.top = newTop + 'px';
+    button.style.left = newX + 'px';
+    button.style.top = newY + 'px';
     button.style.zIndex = '9999';
     button.style.transition = 'all 0.3s ease-out';
+}
+
+const noButton = document.getElementById('noButton');
+if (noButton) {
+    // CAMBIO: Ahora usamos 'click' en lugar de 'mouseenter'
+    noButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Evita que haga clic real, solo se mueve
+        escapeButton(noButton);
+    });
+    
+    // Mantenemos touchstart para celulares (funciona como tap)
+    noButton.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); 
+        escapeButton(noButton); 
+    });
 }
 
 // ============================================
