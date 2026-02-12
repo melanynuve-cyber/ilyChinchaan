@@ -74,31 +74,29 @@ body:has([title*="Gracias"]) {
     }
 }
 
-/* Corazones con CSS puro */
-body::before {
-    content: '♥';
+/* Crear múltiples corazones con CSS puro */
+body::before,
+body::after {
+    font-family: Arial, sans-serif;
     position: fixed;
-    font-size: 40px;
+    font-size: 30px;
     color: rgba(255, 255, 255, 0.3);
-    top: -50px;
-    left: 15%;
-    animation: floatHeart 12s infinite ease-in-out;
     pointer-events: none;
     z-index: 1;
-    text-shadow: var(--shadow-pixel);
+}
+
+body::before {
+    content: '♥';
+    top: -50px;
+    left: 15%;
+    animation: floatHeart 10s infinite ease-in-out;
 }
 
 body::after {
     content: '♥';
-    position: fixed;
-    font-size: 35px;
-    color: rgba(255, 255, 255, 0.25);
     top: -50px;
     left: 75%;
-    animation: floatHeart 15s infinite ease-in-out 3s;
-    pointer-events: none;
-    z-index: 1;
-    text-shadow: var(--shadow-pixel);
+    animation: floatHeart 12s infinite ease-in-out 2s;
 }
 
 /* ============================================
@@ -119,9 +117,9 @@ body::after {
     background: var(--box-bg);
     border: 4px solid var(--box-border);
     border-radius: 0;
-    padding: 40px 30px;
-    max-width: 600px;
-    width: 100%;
+    padding: 50px 40px;
+    max-width: 800px;
+    width: 90%;
     position: relative;
     z-index: 10;
     box-shadow: 
@@ -273,6 +271,9 @@ button:active {
     background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
     border-color: #00ff88;
     animation: buttonGlowYes 1.5s ease-in-out infinite alternate;
+    flex: 1;
+    min-width: 150px;
+    max-width: 200px;
 }
 
 .yes:hover {
@@ -303,10 +304,14 @@ button:active {
 .no {
     background: linear-gradient(135deg, #d63031 0%, #e17055 100%);
     border-color: #ff6b6b;
+    flex: 1;
+    min-width: 150px;
+    max-width: 200px;
 }
 
+/* No añadir hover al botón No para que no se alargue */
 .no:hover {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff7979 100%);
+    cursor: pointer;
 }
 
 /* ============================================

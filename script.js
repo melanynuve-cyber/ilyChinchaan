@@ -15,28 +15,24 @@ function escapeButton(button) {
     let newY = Math.random() * maxY;
     
     // Asegurar distancia mínima de la posición actual
-    const minDistance = 150;
+    const minDistance = 120;
     const currentX = buttonRect.left;
     const currentY = buttonRect.top;
     
     // Evitar que aparezca muy cerca
-    while (Math.abs(newX - currentX) < minDistance && Math.abs(newY - currentY) < minDistance) {
+    let attempts = 0;
+    while (Math.abs(newX - currentX) < minDistance && Math.abs(newY - currentY) < minDistance && attempts < 10) {
         newX = Math.random() * maxX;
         newY = Math.random() * maxY;
+        attempts++;
     }
     
     // Aplicar nueva posición
     button.style.position = 'fixed';
     button.style.left = newX + 'px';
     button.style.top = newY + 'px';
-    button.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    button.style.transition = 'all 0.3s ease-out';
     button.style.zIndex = '1000';
-    
-    // Animación de sacudida
-    button.style.animation = 'shake 0.3s';
-    setTimeout(() => {
-        button.style.animation = '';
-    }, 300);
 }
 
 // ============================================
@@ -45,51 +41,24 @@ function escapeButton(button) {
 const noButton = document.getElementById('noButton');
 
 if (noButton) {
-    let escapeCount = 0;
-    const messages = [
-        'No 😢',
-        '¿Segura? 🥺',
-        'Piénsalo bien 💔',
-        'En serio? 😭',
-        'Por favor 🙏',
-        'Di que sí 💕',
-        'Venga ya! 😊',
-        'Solo di sí! 💖'
-    ];
+    // Mantener solo la carita triste
+    noButton.textContent = '😢';
     
     // Escapar al pasar el mouse por encima (desktop)
     noButton.addEventListener('mouseenter', function() {
         escapeButton(noButton);
-        escapeCount++;
-        
-        // Cambiar texto progresivamente
-        if (escapeCount < messages.length) {
-            noButton.textContent = messages[escapeCount];
-        }
     });
     
     // Escapar al hacer click (móvil)
     noButton.addEventListener('click', function(e) {
         e.preventDefault();
         escapeButton(noButton);
-        escapeCount++;
-        
-        // Cambiar texto progresivamente
-        if (escapeCount < messages.length) {
-            noButton.textContent = messages[escapeCount];
-        }
     });
     
     // Escapar al hacer touch (móvil)
     noButton.addEventListener('touchstart', function(e) {
         e.preventDefault();
         escapeButton(noButton);
-        escapeCount++;
-        
-        // Cambiar texto progresivamente
-        if (escapeCount < messages.length) {
-            noButton.textContent = messages[escapeCount];
-        }
     });
 }
 
@@ -160,38 +129,43 @@ if (window.location.pathname.includes('accepted.html')) {
 }
 
 // ============================================
-// CORAZONES FLOTANTES ADICIONALES
+// CORAZONES FLOTANTES ADICIONALES - LLUVIA
 // ============================================
 function createFloatingHeart() {
-    const hearts = ['♥', '♡'];
+    const hearts = ['♥', '♡', '💕', '💖', '💗'];
     const heart = document.createElement('div');
     
     heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
     heart.style.position = 'fixed';
-    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-    heart.style.color = 'rgba(255, 255, 255, 0.4)';
+    heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+    heart.style.color = 'rgba(255, 255, 255, 0.5)';
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.bottom = '-50px';
     heart.style.zIndex = '1';
     heart.style.pointerEvents = 'none';
-    heart.style.transition = 'all 8s linear';
+    heart.style.transition = 'all 10s linear';
     heart.style.textShadow = '2px 2px 4px rgba(255, 20, 147, 0.5)';
     
     document.body.appendChild(heart);
     
     setTimeout(() => {
         heart.style.bottom = '110%';
-        heart.style.transform = 'translateX(' + (Math.random() * 100 - 50) + 'px) rotate(360deg)';
+        heart.style.transform = 'translateX(' + (Math.random() * 100 - 50) + 'px) rotate(' + (Math.random() * 360) + 'deg)';
         heart.style.opacity = '0';
     }, 50);
     
     setTimeout(() => {
         heart.remove();
-    }, 8100);
+    }, 10100);
 }
 
-// Crear corazones cada 2 segundos
-setInterval(createFloatingHeart, 2000);
+// Crear lluvia de corazones - uno cada segundo
+setInterval(createFloatingHeart, 1000);
+
+// Crear varios corazones al inicio para poblar la pantalla
+for (let i = 0; i < 8; i++) {
+    setTimeout(createFloatingHeart, i * 500);
+}
 
 // ============================================
 // EFECTO DE BRILLO EN BOTÓN YES AL HOVER
@@ -242,6 +216,9 @@ if (!document.getElementById('sparkle-animation')) {
     document.head.appendChild(style);
 }
 
+// ============================================
+// SONIDO RETRO AL HACER CLICK (OPCIONAL)
+// ============================================
 
 function playRetroSound() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
