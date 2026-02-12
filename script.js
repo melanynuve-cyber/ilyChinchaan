@@ -35,61 +35,54 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
-function escapeButton(button) {
-    // 1. TRUCO DE MAGIA: "Apagar" la gravedad del contenedor
-    // Al quitar la animación y el transform del contenedor, el botón con position: fixed
-    // por fin entiende que debe usar la pantalla completa y no la caja morada.
-    const container = document.querySelector('.container');
-    if (container) {
-        // Forzamos al navegador a olvidar los límites de la caja
-        container.style.animation = 'none';
-        container.style.transform = 'none'; 
-    }
+function initNoButton() {
+    const noButton = document.getElementById('noButton');
+    if (!noButton) return;
 
-    // 2. OBTENER TAMAÑOS
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const btnW = button.offsetWidth;
-    const btnH = button.offsetHeight;
+    // Función para mover el botón
+    const moveBtn = (e) => {
+        e.preventDefault(); // Evitar comportamientos raros
 
-    // 3. JAULA DE SEGURIDAD (Padding)
-    // 40px de espacio para que no toque bordes ni barras del cel
-    const padding = 40;
+        // 1. EL "TRASPLANTE": Si el botón sigue en la caja, lo pasamos al body
+        // Esto rompe la relación con la caja morada y permite que position:fixed funcione real
+        if (noButton.parentElement !== document.body) {
+            document.body.appendChild(noButton);
+        }
 
-    // 4. LÍMITES
-    const maxLeft = vw - btnW - padding;
-    const maxTop = vh - btnH - padding;
+        // 2. Medidas de la pantalla
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        
+        // 3. Medidas del botón
+        const btnW = noButton.offsetWidth;
+        const btnH = noButton.offsetHeight;
 
-    // 5. GENERAR POSICIÓN
-    let newLeft = Math.random() * maxLeft;
-    let newTop = Math.random() * maxTop;
+        // 4. Margen de seguridad (para que no toque los bordes)
+        const margin = 30;
 
-    // 6. ASEGURAR (CLAMP)
-    // Obligamos a que no sea menor a 40px ni mayor al límite
-    newLeft = Math.max(padding, Math.min(newLeft, maxLeft));
-    newTop = Math.max(padding, Math.min(newTop, maxTop));
+        // 5. Área permitida
+        const maxLeft = vw - btnW - margin;
+        const maxTop = vh - btnH - margin;
 
-    // 7. APLICAR MOVIMIENTO
-    button.style.position = 'fixed'; // Flotar sobre todo
-    button.style.left = newLeft + 'px';
-    button.style.top = newTop + 'px';
-    button.style.zIndex = '9999'; 
-    button.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)';
-}
+        // 6. Generar coordenadas
+        let newLeft = Math.random() * maxLeft;
+        let newTop = Math.random() * maxTop;
 
-const noButton = document.getElementById('noButton');
-if (noButton) {
-    // CLICK (PC)
-    noButton.addEventListener('click', (e) => {
-        e.preventDefault(); 
-        escapeButton(noButton);
-    });
-    
-    // TOUCH (CELULAR)
-    noButton.addEventListener('touchstart', (e) => { 
-        e.preventDefault(); 
-        escapeButton(noButton); 
-    });
+        // 7. Asegurar que estén dentro del margen (Clamp)
+        newLeft = Math.max(margin, Math.min(newLeft, maxLeft));
+        newTop = Math.max(margin, Math.min(newTop, maxTop));
+
+        // 8. APLICAR MOVIMIENTO
+        noButton.style.position = 'fixed'; // Obligatorio
+        noButton.style.left = newLeft + 'px';
+        noButton.style.top = newTop + 'px';
+        noButton.style.zIndex = '99999'; // Encima de todo
+        noButton.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)';
+    };
+
+    // AGREGAMOS LOS EVENTOS (CLICK Y TOUCH)
+    noButton.addEventListener('click', moveBtn);
+    noButton.addEventListener('touchstart', moveBtn);
 }
 
 // ============================================
