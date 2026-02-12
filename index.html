@@ -2,25 +2,44 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Hola Andy 💖</title>
+    <title>Para Andy 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="center">
 
-    <div class="container">
-        <h1>Hola Andy! 💕</h1>
+    <!-- 🎵 Música -->
+    <audio id="bgMusic" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Pantalla 1 -->
+    <div id="screen1" class="screen active">
+        <h1>Hola Andy 💕</h1>
         <p>Presiona cualquier tecla para comenzar...</p>
     </div>
 
-    <script>
-        document.addEventListener("keydown", function() {
-            window.location.href = "question.html";
-        });
-    </script>
+    <!-- Pantalla 2 -->
+    <div id="screen2" class="screen">
+        <h1>¿Quieres ser mi San Valentín? 💘</h1>
+        <div class="buttons">
+            <button class="yes" onclick="accept()">Sí 💖</button>
+            <button class="no" id="noButton">No 😢</button>
+        </div>
+    </div>
 
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Pantalla 3 -->
+    <div id="screen3" class="screen">
+        <h1 class="big">¡Gracias por aceptar!</h1>
+        <p>
+            No sé qué nos depare el futuro, pero quiero vivirlo contigo. 💗
+        </p>
+        
+        <p>
+            Te veo el Sabado a la 12pm en tu casita, te amo mucho 💞
+        </p>
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
 </html>
