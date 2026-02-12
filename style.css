@@ -7,14 +7,14 @@
    VARIABLES Y RESET
    ============================================ */
 :root {
-    --box-bg: rgba(255, 240, 245, 0.85);
-    --box-border: #ffb3d9;
-    --text-color: #8b5a7d;
+    --box-bg: rgba(139, 90, 125, 0.75);
+    --box-border: #d4a5d4;
+    --text-color: #ffffff;
     --shadow-pixel: 
-        4px 0 0 #ffcce5,
-        0 4px 0 #ffcce5,
-        -4px 0 0 #ffcce5,
-        0 -4px 0 #ffcce5;
+        4px 0 0 #d4a5d4,
+        0 4px 0 #d4a5d4,
+        -4px 0 0 #d4a5d4,
+        0 -4px 0 #d4a5d4;
 }
 
 * {
@@ -39,7 +39,7 @@ body {
 /* Index - Rosa pastel */
 body {
     background: linear-gradient(135deg, #ffd3e1 0%, #ffe6f0 50%, #ffc4d6 100%);
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">💕</text></svg>'), auto;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">💘</text></svg>') 16 16, auto;
 }
 
 /* Question - Rosa pastel más claro */
@@ -124,9 +124,9 @@ body::after {
     position: relative;
     z-index: 10;
     box-shadow: 
-        0 0 0 4px rgba(255, 179, 217, 0.3),
-        8px 8px 0 0 rgba(255, 204, 229, 0.4),
-        12px 12px 0 0 rgba(255, 179, 217, 0.3);
+        0 0 0 4px rgba(139, 90, 125, 0.5),
+        8px 8px 0 0 rgba(212, 165, 212, 0.6),
+        12px 12px 0 0 rgba(139, 90, 125, 0.4);
     animation: fadeInBox 0.8s ease-out;
 }
 
@@ -174,22 +174,22 @@ h1 {
     margin-bottom: 30px;
     text-align: center;
     text-shadow: 
-        2px 2px 0 rgba(255, 179, 217, 0.5),
-        -1px -1px 0 rgba(255, 255, 255, 0.3);
+        2px 2px 0 rgba(139, 90, 125, 0.8),
+        -1px -1px 0 rgba(255, 255, 255, 0.2);
     animation: glowText 2s ease-in-out infinite alternate;
 }
 
 @keyframes glowText {
     from {
         text-shadow: 
-            2px 2px 0 rgba(255, 179, 217, 0.5),
-            0 0 10px rgba(255, 204, 229, 0.4);
+            2px 2px 0 rgba(139, 90, 125, 0.8),
+            0 0 10px rgba(212, 165, 212, 0.5);
     }
     to {
         text-shadow: 
-            2px 2px 0 rgba(255, 179, 217, 0.5),
-            0 0 20px rgba(255, 204, 229, 0.8),
-            0 0 30px rgba(255, 179, 217, 0.5);
+            2px 2px 0 rgba(139, 90, 125, 0.8),
+            0 0 20px rgba(212, 165, 212, 0.9),
+            0 0 30px rgba(255, 255, 255, 0.6);
     }
 }
 
@@ -241,6 +241,9 @@ p {
     text-decoration: none;
     flex: 1;
     min-width: 150px;
+    display: inline-block;
+    width: auto;
+    max-width: 200px;
 }
 
 button {
@@ -248,23 +251,23 @@ button {
     font-size: clamp(0.7rem, 2vw, 1rem);
     padding: 20px 30px;
     border: 4px solid var(--box-border);
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(212, 165, 212, 0.3);
     color: var(--text-color);
     cursor: pointer;
     width: 100%;
     position: relative;
     transition: all 0.1s;
-    text-shadow: 1px 1px 0 rgba(255, 179, 217, 0.3);
+    text-shadow: 2px 2px 0 rgba(139, 90, 125, 0.5);
     box-shadow: 
-        0 0 0 4px rgba(255, 179, 217, 0.2),
-        6px 6px 0 0 rgba(255, 204, 229, 0.3);
+        0 0 0 4px rgba(139, 90, 125, 0.4),
+        6px 6px 0 0 rgba(212, 165, 212, 0.5);
 }
 
 button:active {
     transform: translate(3px, 3px);
     box-shadow: 
-        0 0 0 4px rgba(255, 179, 217, 0.2),
-        3px 3px 0 0 rgba(255, 204, 229, 0.3);
+        0 0 0 4px rgba(139, 90, 125, 0.4),
+        3px 3px 0 0 rgba(212, 165, 212, 0.5);
 }
 
 /* Botón YES - Verde success */
@@ -281,22 +284,22 @@ button:active {
     background: linear-gradient(135deg, #00ff88 0%, #00ffcc 100%);
     transform: scale(1.05);
     box-shadow: 
-        0 0 0 4px rgba(255, 179, 217, 0.2),
-        6px 6px 0 0 rgba(255, 204, 229, 0.3),
+        0 0 0 4px rgba(139, 90, 125, 0.4),
+        6px 6px 0 0 rgba(212, 165, 212, 0.5),
         0 0 20px rgba(0, 255, 136, 0.6);
 }
 
 @keyframes buttonGlowYes {
     from {
         box-shadow: 
-            0 0 0 4px rgba(255, 179, 217, 0.2),
-            6px 6px 0 0 rgba(255, 204, 229, 0.3),
+            0 0 0 4px rgba(139, 90, 125, 0.4),
+            6px 6px 0 0 rgba(212, 165, 212, 0.5),
             0 0 10px rgba(0, 255, 136, 0.3);
     }
     to {
         box-shadow: 
-            0 0 0 4px rgba(255, 179, 217, 0.2),
-            6px 6px 0 0 rgba(255, 204, 229, 0.3),
+            0 0 0 4px rgba(139, 90, 125, 0.4),
+            6px 6px 0 0 rgba(212, 165, 212, 0.5),
             0 0 25px rgba(0, 255, 136, 0.6);
     }
 }
@@ -338,9 +341,9 @@ button:active {
     .container {
         padding: 30px 20px;
         box-shadow: 
-            0 0 0 3px rgba(255, 179, 217, 0.3),
-            6px 6px 0 0 rgba(255, 204, 229, 0.4),
-            8px 8px 0 0 rgba(255, 179, 217, 0.3);
+            0 0 0 3px rgba(139, 90, 125, 0.5),
+            6px 6px 0 0 rgba(212, 165, 212, 0.6),
+            8px 8px 0 0 rgba(139, 90, 125, 0.4);
     }
     
     h1 {

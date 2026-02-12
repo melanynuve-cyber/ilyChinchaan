@@ -247,7 +247,7 @@ function createCursorTrail(x, y) {
 }
 
 // ============================================
-// SONIDO RETRO AL HACER CLICK (OPCIONAL)
+// SONIDO RETRO AL HACER CLICK 
 // ============================================
 
 function playRetroSound() {
