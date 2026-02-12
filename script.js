@@ -36,32 +36,21 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    const buttonRect = button.getBoundingClientRect();
+    // Definimos un margen de seguridad de 20px para que no toque los bordes
+    const margin = 20;
+    const maxX = window.innerWidth - button.offsetWidth - margin;
+    const maxY = window.innerHeight - button.offsetHeight - margin;
     
-    const maxX = windowWidth - buttonRect.width - 40;
-    const maxY = windowHeight - buttonRect.height - 40;
+    // Generamos la posición asegurándonos de que no sea menor al margen
+    let newX = Math.random() * (maxX - margin) + margin;
+    let newY = Math.random() * (maxY - margin) + margin;
     
-    let newX = Math.random() * maxX;
-    let newY = Math.random() * maxY;
-    
-    const minDistance = 120;
-    const currentX = buttonRect.left;
-    const currentY = buttonRect.top;
-    
-    let attempts = 0;
-    while (Math.abs(newX - currentX) < minDistance && Math.abs(newY - currentY) < minDistance && attempts < 10) {
-        newX = Math.random() * maxX;
-        newY = Math.random() * maxY;
-        attempts++;
-    }
-    
+    // Aplicamos la posición
     button.style.position = 'fixed';
     button.style.left = newX + 'px';
     button.style.top = newY + 'px';
+    button.style.zIndex = '9999'; // Para que siempre esté por encima de todo
     button.style.transition = 'all 0.3s ease-out';
-    button.style.zIndex = '1000';
 }
 
 const noButton = document.getElementById('noButton');
