@@ -36,59 +36,46 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // 1. Obtenemos dimensiones de la pantalla visible
+    // 1. EL TRUCO MAESTRO: Sacamos el botón de la caja y lo ponemos en el body
+    // Esto evita que se corte, se oculte o use coordenadas raras.
+    if (button.parentNode !== document.body) {
+        document.body.appendChild(button);
+    }
+
+    // 2. Obtenemos el tamaño de la pantalla visible
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     
-    // 2. Obtenemos dimensiones del botón
+    // 3. Obtenemos dimensiones del botón
     const btnW = button.offsetWidth;
     const btnH = button.offsetHeight;
 
-    // 3. DEFINIMOS LA JAULA (Padding de seguridad)
-    // 30px de espacio libre por todos lados para que no toque bordes
+    // 4. Margen de seguridad (30px)
     const padding = 30;
 
-    // 4. Calculamos el límite máximo donde puede empezar el botón
-    // (Ancho pantalla - Ancho botón - Padding derecho)
+    // 5. Calculamos el área libre
     const maxLeft = vw - btnW - padding;
     const maxTop = vh - btnH - padding;
 
-    // 5. Generamos una posición aleatoria CRUDA
+    // 6. Generamos posición aleatoria
     let newLeft = Math.random() * maxLeft;
     let newTop = Math.random() * maxTop;
 
-    // 6. "CLAMP" (FORZAR LÍMITES) - ESTA ES LA CLAVE
-    // Math.max(padding, ...) -> Si el número es menor a 30, lo obliga a ser 30.
-    // Math.min(..., maxLeft) -> Si el número se pasa del límite, lo obliga a regresar.
-    
-    // Aseguramos coordenada X (Horizontal)
+    // 7. Aseguramos que no se salga (Clamp)
     newLeft = Math.max(padding, Math.min(newLeft, maxLeft));
-    
-    // Aseguramos coordenada Y (Vertical)
     newTop = Math.max(padding, Math.min(newTop, maxTop));
 
-    // 7. Aplicamos la posición fija
+    // 8. Aplicamos estilos obligatorios
     button.style.position = 'fixed';
     button.style.left = newLeft + 'px';
     button.style.top = newTop + 'px';
-    button.style.zIndex = '9999';
-    button.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)'; // Movimiento más natural
-}
-
-const noButton = document.getElementById('noButton');
-if (noButton) {
-    // MOVIMIENTO SOLO AL DAR CLICK (PC)
-    noButton.addEventListener('click', (e) => {
-        e.preventDefault(); 
-        escapeButton(noButton);
-    });
     
-    // MOVIMIENTO SOLO AL TOCAR (CELULAR)
-    noButton.addEventListener('touchstart', (e) => { 
-        e.preventDefault(); 
-        escapeButton(noButton); 
-    });
-    // Quitamos mouseenter para que no se mueva solo con mirar
+    // Reseteamos márgenes o transformaciones que pudiera tener por herencia
+    button.style.margin = '0';
+    button.style.transform = 'none'; 
+    
+    button.style.zIndex = '99999'; // Capa super superior
+    button.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)';
 }
 
 // ============================================
