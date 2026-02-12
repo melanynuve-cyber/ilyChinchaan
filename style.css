@@ -7,14 +7,14 @@
    VARIABLES Y RESET
    ============================================ */
 :root {
-    --box-bg: rgba(0, 0, 0, 0.6);
-    --box-border: #fff;
-    --text-color: #fff;
+    --box-bg: rgba(255, 240, 245, 0.85);
+    --box-border: #ffb3d9;
+    --text-color: #8b5a7d;
     --shadow-pixel: 
-        4px 0 0 #ff1493,
-        0 4px 0 #ff1493,
-        -4px 0 0 #ff1493,
-        0 -4px 0 #ff1493;
+        4px 0 0 #ffcce5,
+        0 4px 0 #ffcce5,
+        -4px 0 0 #ffcce5,
+        0 -4px 0 #ffcce5;
 }
 
 * {
@@ -33,22 +33,23 @@ body {
 }
 
 /* ============================================
-   FONDOS DEGRADADOS POR PÁGINA
+   FONDOS DEGRADADOS POR PÁGINA - COLORES PASTELES
    ============================================ */
 
-/* Index - Rosa/Púrpura */
+/* Index - Rosa pastel */
 body {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #ffd3e1 0%, #ffe6f0 50%, #ffc4d6 100%);
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">💕</text></svg>'), auto;
 }
 
-/* Question - Rosa más intenso */
+/* Question - Rosa pastel más claro */
 body:has([title*="San Valentín"]) {
-    background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+    background: linear-gradient(135deg, #ffc9e0 0%, #ffd9ed 50%, #ffe0f0 100%);
 }
 
-/* Accepted - Rosa suave celebración */
+/* Accepted - Rosa pastel suave celebración */
 body:has([title*="Gracias"]) {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffdde1 100%);
+    background: linear-gradient(135deg, #ffe0f0 0%, #fff0f8 50%, #ffe6f2 100%);
 }
 
 /* ============================================
@@ -123,9 +124,9 @@ body::after {
     position: relative;
     z-index: 10;
     box-shadow: 
-        0 0 0 4px rgba(0, 0, 0, 0.3),
-        8px 8px 0 0 rgba(0, 0, 0, 0.2),
-        12px 12px 0 0 rgba(255, 20, 147, 0.3);
+        0 0 0 4px rgba(255, 179, 217, 0.3),
+        8px 8px 0 0 rgba(255, 204, 229, 0.4),
+        12px 12px 0 0 rgba(255, 179, 217, 0.3);
     animation: fadeInBox 0.8s ease-out;
 }
 
@@ -173,22 +174,22 @@ h1 {
     margin-bottom: 30px;
     text-align: center;
     text-shadow: 
-        3px 3px 0 rgba(0, 0, 0, 0.5),
-        -1px -1px 0 rgba(255, 255, 255, 0.1);
+        2px 2px 0 rgba(255, 179, 217, 0.5),
+        -1px -1px 0 rgba(255, 255, 255, 0.3);
     animation: glowText 2s ease-in-out infinite alternate;
 }
 
 @keyframes glowText {
     from {
         text-shadow: 
-            3px 3px 0 rgba(0, 0, 0, 0.5),
-            0 0 10px rgba(255, 255, 255, 0.3);
+            2px 2px 0 rgba(255, 179, 217, 0.5),
+            0 0 10px rgba(255, 204, 229, 0.4);
     }
     to {
         text-shadow: 
-            3px 3px 0 rgba(0, 0, 0, 0.5),
-            0 0 20px rgba(255, 255, 255, 0.6),
-            0 0 30px rgba(255, 20, 147, 0.4);
+            2px 2px 0 rgba(255, 179, 217, 0.5),
+            0 0 20px rgba(255, 204, 229, 0.8),
+            0 0 30px rgba(255, 179, 217, 0.5);
     }
 }
 
@@ -247,23 +248,23 @@ button {
     font-size: clamp(0.7rem, 2vw, 1rem);
     padding: 20px 30px;
     border: 4px solid var(--box-border);
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.5);
     color: var(--text-color);
     cursor: pointer;
     width: 100%;
     position: relative;
     transition: all 0.1s;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 0 rgba(255, 179, 217, 0.3);
     box-shadow: 
-        0 0 0 4px rgba(0, 0, 0, 0.3),
-        6px 6px 0 0 rgba(0, 0, 0, 0.4);
+        0 0 0 4px rgba(255, 179, 217, 0.2),
+        6px 6px 0 0 rgba(255, 204, 229, 0.3);
 }
 
 button:active {
     transform: translate(3px, 3px);
     box-shadow: 
-        0 0 0 4px rgba(0, 0, 0, 0.3),
-        3px 3px 0 0 rgba(0, 0, 0, 0.4);
+        0 0 0 4px rgba(255, 179, 217, 0.2),
+        3px 3px 0 0 rgba(255, 204, 229, 0.3);
 }
 
 /* Botón YES - Verde success */
@@ -280,22 +281,22 @@ button:active {
     background: linear-gradient(135deg, #00ff88 0%, #00ffcc 100%);
     transform: scale(1.05);
     box-shadow: 
-        0 0 0 4px rgba(0, 0, 0, 0.3),
-        6px 6px 0 0 rgba(0, 0, 0, 0.4),
+        0 0 0 4px rgba(255, 179, 217, 0.2),
+        6px 6px 0 0 rgba(255, 204, 229, 0.3),
         0 0 20px rgba(0, 255, 136, 0.6);
 }
 
 @keyframes buttonGlowYes {
     from {
         box-shadow: 
-            0 0 0 4px rgba(0, 0, 0, 0.3),
-            6px 6px 0 0 rgba(0, 0, 0, 0.4),
+            0 0 0 4px rgba(255, 179, 217, 0.2),
+            6px 6px 0 0 rgba(255, 204, 229, 0.3),
             0 0 10px rgba(0, 255, 136, 0.3);
     }
     to {
         box-shadow: 
-            0 0 0 4px rgba(0, 0, 0, 0.3),
-            6px 6px 0 0 rgba(0, 0, 0, 0.4),
+            0 0 0 4px rgba(255, 179, 217, 0.2),
+            6px 6px 0 0 rgba(255, 204, 229, 0.3),
             0 0 25px rgba(0, 255, 136, 0.6);
     }
 }
@@ -337,9 +338,9 @@ button:active {
     .container {
         padding: 30px 20px;
         box-shadow: 
-            0 0 0 3px rgba(0, 0, 0, 0.3),
-            6px 6px 0 0 rgba(0, 0, 0, 0.2),
-            8px 8px 0 0 rgba(255, 20, 147, 0.3);
+            0 0 0 3px rgba(255, 179, 217, 0.3),
+            6px 6px 0 0 rgba(255, 204, 229, 0.4),
+            8px 8px 0 0 rgba(255, 179, 217, 0.3);
     }
     
     h1 {
@@ -406,4 +407,30 @@ body:has([title*="Gracias"]) .container {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px) rotate(-2deg); }
     75% { transform: translateX(10px) rotate(2deg); }
+}
+
+/* ============================================
+   ESTELA DEL CURSOR ROSA CUTE
+   ============================================ */
+.cursor-trail {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffb3d9 0%, #ffc9e0 50%, transparent 70%);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.8;
+    animation: cursorFade 0.8s ease-out forwards;
+}
+
+@keyframes cursorFade {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
 }
