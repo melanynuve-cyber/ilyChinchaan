@@ -247,28 +247,47 @@ function createCursorTrail(x, y) {
 }
 
 // ============================================
-// SONIDO RETRO AL HACER CLICK 
+// SONIDO RETRO MEJORADO
 // ============================================
 
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 function playRetroSound() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     oscillator.frequency.value = 800;
     oscillator.type = 'square';
-    
+
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.15);
 }
 
 // Añadir sonido a los botones
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', playRetroSound);
+});
+
+// ============================================
+// MÚSICA DE FONDO TIPO JUEGO
+// ============================================
+
+const bgMusic = document.getElementById("bgMusic");
+
+document.addEventListener("click", function startMusic() {
+    if (bgMusic) {
+        bgMusic.volume = 0.3;
+        bgMusic.play();
+    }
+    document.removeEventListener("click", startMusic);
 });

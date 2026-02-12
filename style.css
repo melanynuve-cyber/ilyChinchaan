@@ -232,11 +232,10 @@ p {
    ============================================ */
 .buttons {
     display: flex;
-    gap: 20px;
-    margin-top: 30px;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    gap: 30px;
+    margin-top: 40px;
     position: relative;
 }
 
@@ -278,9 +277,7 @@ button:active {
     background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
     border-color: #00ff88;
     animation: buttonGlowYes 1.5s ease-in-out infinite alternate;
-    flex: 1;
-    min-width: 150px;
-    max-width: 200px;
+    width: 180px;
 }
 
 .yes:hover {
@@ -311,15 +308,14 @@ button:active {
 .no {
     background: linear-gradient(135deg, #d63031 0%, #e17055 100%);
     border-color: #ff6b6b;
-    flex: 1;
-    min-width: 150px;
-    max-width: 200px;
+    width: 180px;
 }
 
 /* No añadir hover al botón No para que no se alargue */
 .no:hover {
     cursor: pointer;
 }
+
 
 /* ============================================
    ANIMACIONES ADICIONALES
