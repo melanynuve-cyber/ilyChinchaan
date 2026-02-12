@@ -41,8 +41,8 @@ function escapeButton(button) {
 const noButton = document.getElementById('noButton');
 
 if (noButton) {
-    // Mantener solo la carita triste
-    noButton.textContent = '😢';
+    // Mantener el texto literal "No 😢"
+    noButton.textContent = 'No 😢';
     
     // Escapar al pasar el mouse por encima (desktop)
     noButton.addEventListener('mouseenter', function() {
@@ -129,43 +129,46 @@ if (window.location.pathname.includes('accepted.html')) {
 }
 
 // ============================================
-// CORAZONES FLOTANTES ADICIONALES - LLUVIA
+// LLUVIA DE CORAZONES EN CASCADA - TODA LA PANTALLA
 // ============================================
-function createFloatingHeart() {
-    const hearts = ['♥', '♡', '💕', '💖', '💗'];
+function createHeartRain() {
+    const hearts = ['♥', '♡', '💕', '💖', '💗', '💝', '💓'];
     const heart = document.createElement('div');
     
     heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
     heart.style.position = 'fixed';
-    heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
-    heart.style.color = 'rgba(255, 255, 255, 0.5)';
-    heart.style.left = Math.random() * window.innerWidth + 'px';
-    heart.style.bottom = '-50px';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    heart.style.color = 'rgba(255, 179, 217, 0.7)';
+    heart.style.left = Math.random() * 100 + '%'; // Cualquier posición horizontal
+    heart.style.top = '-50px'; // Empieza arriba
     heart.style.zIndex = '1';
     heart.style.pointerEvents = 'none';
-    heart.style.transition = 'all 10s linear';
-    heart.style.textShadow = '2px 2px 4px rgba(255, 20, 147, 0.5)';
+    heart.style.transition = 'all ' + (Math.random() * 3 + 5) + 's linear';
+    heart.style.textShadow = '0 0 10px rgba(255, 179, 217, 0.8)';
     
     document.body.appendChild(heart);
     
+    // Caer de arriba hacia abajo
     setTimeout(() => {
-        heart.style.bottom = '110%';
-        heart.style.transform = 'translateX(' + (Math.random() * 100 - 50) + 'px) rotate(' + (Math.random() * 360) + 'deg)';
-        heart.style.opacity = '0';
+        heart.style.top = '110vh'; // Cae hasta abajo
+        heart.style.transform = 'translateX(' + (Math.random() * 50 - 25) + 'px) rotate(' + (Math.random() * 360) + 'deg)';
     }, 50);
     
+    // Remover después de que cae
     setTimeout(() => {
         heart.remove();
-    }, 10100);
+    }, 8100);
 }
 
-// Crear lluvia de corazones - uno cada segundo
-setInterval(createFloatingHeart, 1000);
-
-// Crear varios corazones al inicio para poblar la pantalla
-for (let i = 0; i < 8; i++) {
-    setTimeout(createFloatingHeart, i * 500);
+// Iniciar lluvia inmediatamente - crear varios corazones al inicio
+for (let i = 0; i < 15; i++) {
+    setTimeout(() => {
+        createHeartRain();
+    }, i * 200);
 }
+
+// Continuar creando corazones constantemente (cada 400ms = lluvia abundante)
+setInterval(createHeartRain, 400);
 
 // ============================================
 // EFECTO DE BRILLO EN BOTÓN YES AL HOVER
@@ -214,6 +217,33 @@ if (!document.getElementById('sparkle-animation')) {
         }
     `;
     document.head.appendChild(style);
+}
+
+// ============================================
+// ESTELA DEL CURSOR ROSA CUTE
+// ============================================
+let cursorX = 0;
+let cursorY = 0;
+
+document.addEventListener('mousemove', function(e) {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    
+    createCursorTrail(cursorX, cursorY);
+});
+
+function createCursorTrail(x, y) {
+    const trail = document.createElement('div');
+    trail.className = 'cursor-trail';
+    trail.style.left = x + 'px';
+    trail.style.top = y + 'px';
+    
+    document.body.appendChild(trail);
+    
+    // Remover después de la animación
+    setTimeout(() => {
+        trail.remove();
+    }, 800);
 }
 
 // ============================================
