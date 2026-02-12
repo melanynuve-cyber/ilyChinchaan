@@ -36,46 +36,60 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // 1. EL TRUCO MAESTRO: Sacamos el botón de la caja y lo ponemos en el body
-    // Esto evita que se corte, se oculte o use coordenadas raras.
-    if (button.parentNode !== document.body) {
-        document.body.appendChild(button);
+    // 1. TRUCO DE MAGIA: "Apagar" la gravedad del contenedor
+    // Al quitar la animación y el transform del contenedor, el botón con position: fixed
+    // por fin entiende que debe usar la pantalla completa y no la caja morada.
+    const container = document.querySelector('.container');
+    if (container) {
+        // Forzamos al navegador a olvidar los límites de la caja
+        container.style.animation = 'none';
+        container.style.transform = 'none'; 
     }
 
-    // 2. Obtenemos el tamaño de la pantalla visible
+    // 2. OBTENER TAMAÑOS
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    
-    // 3. Obtenemos dimensiones del botón
     const btnW = button.offsetWidth;
     const btnH = button.offsetHeight;
 
-    // 4. Margen de seguridad (30px)
-    const padding = 30;
+    // 3. JAULA DE SEGURIDAD (Padding)
+    // 40px de espacio para que no toque bordes ni barras del cel
+    const padding = 40;
 
-    // 5. Calculamos el área libre
+    // 4. LÍMITES
     const maxLeft = vw - btnW - padding;
     const maxTop = vh - btnH - padding;
 
-    // 6. Generamos posición aleatoria
+    // 5. GENERAR POSICIÓN
     let newLeft = Math.random() * maxLeft;
     let newTop = Math.random() * maxTop;
 
-    // 7. Aseguramos que no se salga (Clamp)
+    // 6. ASEGURAR (CLAMP)
+    // Obligamos a que no sea menor a 40px ni mayor al límite
     newLeft = Math.max(padding, Math.min(newLeft, maxLeft));
     newTop = Math.max(padding, Math.min(newTop, maxTop));
 
-    // 8. Aplicamos estilos obligatorios
-    button.style.position = 'fixed';
+    // 7. APLICAR MOVIMIENTO
+    button.style.position = 'fixed'; // Flotar sobre todo
     button.style.left = newLeft + 'px';
     button.style.top = newTop + 'px';
-    
-    // Reseteamos márgenes o transformaciones que pudiera tener por herencia
-    button.style.margin = '0';
-    button.style.transform = 'none'; 
-    
-    button.style.zIndex = '99999'; // Capa super superior
+    button.style.zIndex = '9999'; 
     button.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)';
+}
+
+const noButton = document.getElementById('noButton');
+if (noButton) {
+    // CLICK (PC)
+    noButton.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        escapeButton(noButton);
+    });
+    
+    // TOUCH (CELULAR)
+    noButton.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); 
+        escapeButton(noButton); 
+    });
 }
 
 // ============================================
