@@ -36,37 +36,35 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // Usamos el tamaño de la pantalla (lo que se ve)
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    // 1. Definimos los límites de la "cancha" visible
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
     
-    // Margen de seguridad (25px)
-    const margin = 25;
-    
-    // Restamos el tamaño del botón para que no se salga por la derecha/abajo
-    const maxX = vw - button.offsetWidth - margin;
-    const maxY = vh - button.offsetHeight - margin;
-    
-    // Generamos una posición aleatoria segura
-    const newX = Math.floor(Math.random() * (maxX - margin)) + margin;
-    const newY = Math.floor(Math.random() * (maxY - margin)) + margin;
-    
-    // position: fixed es la CLAVE. Saca el botón del contenedor.
-    button.style.position = 'fixed';
-    button.style.left = newX + 'px';
-    button.style.top = newY + 'px';
-    button.style.zIndex = '9999'; // Siempre encima de todo
-    button.style.transition = 'all 0.3s ease-out';
-}
+    const btnWidth = button.offsetWidth;
+    const btnHeight = button.offsetHeight;
 
-const noButton = document.getElementById('noButton');
-if (noButton) {
-    noButton.addEventListener('mouseenter', () => escapeButton(noButton));
-    // Agregamos touchstart con preventDefault para móviles
-    noButton.addEventListener('touchstart', (e) => { 
-        e.preventDefault(); 
-        escapeButton(noButton); 
-    });
+    // 2. Margen de seguridad GRANDE (50px) para evitar bordes curvos o barras del navegador
+    const safetyMargin = 50;
+
+    // 3. Calculamos el espacio máximo permitido para la esquina superior izquierda del botón
+    const maxLeft = containerWidth - btnWidth - safetyMargin;
+    const maxTop = containerHeight - btnHeight - safetyMargin;
+
+    // 4. Generamos posiciones aleatorias
+    let newLeft = Math.random() * maxLeft;
+    let newTop = Math.random() * maxTop;
+
+    // 5. "CLAMP" (Asegurar): Si el número es muy chico, forzamos el margen mínimo.
+    // Esto evita que se vaya a coordenadas negativas o muy pegadas al borde 0,0
+    newLeft = Math.max(safetyMargin, newLeft);
+    newTop = Math.max(safetyMargin, newTop);
+
+    // 6. Aplicamos
+    button.style.position = 'fixed';
+    button.style.left = newLeft + 'px';
+    button.style.top = newTop + 'px';
+    button.style.zIndex = '9999';
+    button.style.transition = 'all 0.3s ease-out';
 }
 
 // ============================================
