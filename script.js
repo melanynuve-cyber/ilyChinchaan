@@ -36,52 +36,59 @@ document.addEventListener("DOMContentLoaded", function () {
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
 function escapeButton(button) {
-    // Usamos el tamaño de la pantalla visible
+    // 1. Obtenemos dimensiones de la pantalla visible
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     
-    // Margen de seguridad GRANDE (50px) para que no toque bordes
-    const margin = 50;
+    // 2. Obtenemos dimensiones del botón
+    const btnW = button.offsetWidth;
+    const btnH = button.offsetHeight;
+
+    // 3. DEFINIMOS LA JAULA (Padding de seguridad)
+    // 30px de espacio libre por todos lados para que no toque bordes
+    const padding = 30;
+
+    // 4. Calculamos el límite máximo donde puede empezar el botón
+    // (Ancho pantalla - Ancho botón - Padding derecho)
+    const maxLeft = vw - btnW - padding;
+    const maxTop = vh - btnH - padding;
+
+    // 5. Generamos una posición aleatoria CRUDA
+    let newLeft = Math.random() * maxLeft;
+    let newTop = Math.random() * maxTop;
+
+    // 6. "CLAMP" (FORZAR LÍMITES) - ESTA ES LA CLAVE
+    // Math.max(padding, ...) -> Si el número es menor a 30, lo obliga a ser 30.
+    // Math.min(..., maxLeft) -> Si el número se pasa del límite, lo obliga a regresar.
     
-    // Restamos el tamaño del botón
-    const btnWidth = button.offsetWidth;
-    const btnHeight = button.offsetHeight;
+    // Aseguramos coordenada X (Horizontal)
+    newLeft = Math.max(padding, Math.min(newLeft, maxLeft));
     
-    // Calculamos el espacio disponible
-    const maxX = vw - btnWidth - margin;
-    const maxY = vh - btnHeight - margin;
-    
-    // Generamos posición aleatoria
-    let newX = Math.random() * maxX;
-    let newY = Math.random() * maxY;
-    
-    // "CLAMP": Forzamos a que el número esté dentro de los límites seguros
-    // Math.max asegura que no sea menor al margen
-    // Math.min asegura que no sea mayor al límite derecho/inferior
-    newX = Math.min(Math.max(margin, newX), maxX);
-    newY = Math.min(Math.max(margin, newY), maxY);
-    
-    // Aplicamos position: fixed para usar toda la pantalla
+    // Aseguramos coordenada Y (Vertical)
+    newTop = Math.max(padding, Math.min(newTop, maxTop));
+
+    // 7. Aplicamos la posición fija
     button.style.position = 'fixed';
-    button.style.left = newX + 'px';
-    button.style.top = newY + 'px';
+    button.style.left = newLeft + 'px';
+    button.style.top = newTop + 'px';
     button.style.zIndex = '9999';
-    button.style.transition = 'all 0.3s ease-out';
+    button.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)'; // Movimiento más natural
 }
 
 const noButton = document.getElementById('noButton');
 if (noButton) {
-    // CAMBIO: Ahora usamos 'click' en lugar de 'mouseenter'
+    // MOVIMIENTO SOLO AL DAR CLICK (PC)
     noButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Evita que haga clic real, solo se mueve
+        e.preventDefault(); 
         escapeButton(noButton);
     });
     
-    // Mantenemos touchstart para celulares (funciona como tap)
+    // MOVIMIENTO SOLO AL TOCAR (CELULAR)
     noButton.addEventListener('touchstart', (e) => { 
         e.preventDefault(); 
         escapeButton(noButton); 
     });
+    // Quitamos mouseenter para que no se mueva solo con mirar
 }
 
 // ============================================
