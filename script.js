@@ -35,54 +35,54 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 // 2. LÓGICA DEL BOTÓN "NO" (ESCAPAR)
 // ============================================
-function initNoButton() {
-    const noButton = document.getElementById('noButton');
-    if (!noButton) return;
+function escapeButton(button) {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const buttonRect = button.getBoundingClientRect();
 
-    // Función para mover el botón
-    const moveBtn = (e) => {
-        e.preventDefault(); // Evitar comportamientos raros
+    // Calcular límites para que el botón no se salga
+    const maxX = windowWidth - buttonRect.width - 40;
+    const maxY = windowHeight - buttonRect.height - 40;
 
-        // 1. EL "TRASPLANTE": Si el botón sigue en la caja, lo pasamos al body
-        // Esto rompe la relación con la caja morada y permite que position:fixed funcione real
-        if (noButton.parentElement !== document.body) {
-            document.body.appendChild(noButton);
-        }
+    // Generar posición aleatoria
+    let newX = Math.random() * maxX;
+    let newY = Math.random() * maxY;
 
-        // 2. Medidas de la pantalla
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        
-        // 3. Medidas del botón
-        const btnW = noButton.offsetWidth;
-        const btnH = noButton.offsetHeight;
+    // Asegurar distancia mínima de la posición actual
+    const minDistance = 120;
+    const currentX = buttonRect.left;
+    const currentY = buttonRect.top;
 
-        // 4. Margen de seguridad (para que no toque los bordes)
-        const margin = 30;
+    // Evitar que aparezca muy cerca
+    let attempts = 0;
+    while (Math.abs(newX - currentX) < minDistance && Math.abs(newY - currentY) < minDistance && attempts < 10) {
+        newX = Math.random() * maxX;
+        newY = Math.random() * maxY;
+        attempts++;
+    }
 
-        // 5. Área permitida
-        const maxLeft = vw - btnW - margin;
-        const maxTop = vh - btnH - margin;
+    // Aplicar nueva posición
+    button.style.position = 'fixed';
+    button.style.left = newX + 'px';
+    button.style.top = newY + 'px';
+    button.style.transition = 'all 0.3s ease-out';
+    button.style.zIndex = '9999'; // Aseguramos que quede encima de todo
+}
 
-        // 6. Generar coordenadas
-        let newLeft = Math.random() * maxLeft;
-        let newTop = Math.random() * maxTop;
+const noButton = document.getElementById('noButton');
 
-        // 7. Asegurar que estén dentro del margen (Clamp)
-        newLeft = Math.max(margin, Math.min(newLeft, maxLeft));
-        newTop = Math.max(margin, Math.min(newTop, maxTop));
-
-        // 8. APLICAR MOVIMIENTO
-        noButton.style.position = 'fixed'; // Obligatorio
-        noButton.style.left = newLeft + 'px';
-        noButton.style.top = newTop + 'px';
-        noButton.style.zIndex = '99999'; // Encima de todo
-        noButton.style.transition = 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)';
-    };
-
-    // AGREGAMOS LOS EVENTOS (CLICK Y TOUCH)
-    noButton.addEventListener('click', moveBtn);
-    noButton.addEventListener('touchstart', moveBtn);
+if (noButton) {
+    // Escapar al hacer click (PC)
+    noButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        escapeButton(noButton);
+    });
+    
+    // Escapar al hacer touch (Móvil)
+    noButton.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        escapeButton(noButton);
+    });
 }
 
 // ============================================
