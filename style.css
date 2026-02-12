@@ -194,8 +194,9 @@ h1 {
 }
 
 h1.big {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.2rem, 4vw, 2rem);
     animation: scaleIn 1s ease-out, glowText 2s ease-in-out infinite alternate 1s;
+    white-space: nowrap;
 }
 
 @keyframes scaleIn {
