@@ -13,37 +13,38 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             
             // 1. OBTENER TAMAÑOS REALES DE LA PANTALLA
-            // Usamos clientWidth/Height para saber el espacio disponible exacto
-            const screenW = document.documentElement.clientWidth;
-            const screenH = document.documentElement.clientHeight;
+            const screenW = window.innerWidth;
+            const screenH = window.innerHeight;
             
-            // 2. OBTENER TAMAÑO DEL BOTÓN
-            const btnW = noButton.offsetWidth;
-            const btnH = noButton.offsetHeight;
+            // 2. OBTENER TAMAÑO DEL BOTÓN (usar getBoundingClientRect para mayor precisión)
+            const btnRect = noButton.getBoundingClientRect();
+            const btnW = btnRect.width;
+            const btnH = btnRect.height;
 
             // 3. MARGEN DE SEGURIDAD (PADDING)
-            // Dejamos 20px de espacio para que no quede pegado al borde del celular
             const padding = 20;
 
-            // 4. CALCULAR EL LÍMITE (La pared invisible)
-            // El botón no puede pasar de: (AnchoPantalla - AnchoBotón - Margen)
-            const maxLeft = screenW - btnW - padding;
-            const maxTop = screenH - btnH - padding;
+            // 4. CALCULAR EL RANGO VÁLIDO
+            // La posición mínima es el padding
+            const minX = padding;
+            const minY = padding;
+            
+            // La posición máxima es: pantalla - tamaño del botón - padding
+            const maxX = screenW - btnW - padding;
+            const maxY = screenH - btnH - padding;
 
-            // 5. GENERAR POSICIÓN ALEATORIA SEGURA
-            // Math.max(padding, ...) asegura que no se salga por la izquierda/arriba
-            // Math.min(..., maxLeft) asegura que no se salga por la derecha/abajo
-            const randomX = Math.max(padding, Math.random() * maxLeft);
-            const randomY = Math.max(padding, Math.random() * maxTop);
+            // 5. GENERAR POSICIÓN ALEATORIA DENTRO DEL RANGO
+            // Math.random() genera un número entre 0 y 1
+            // Lo multiplicamos por el rango (max - min) y le sumamos min
+            const randomX = minX + Math.random() * (maxX - minX);
+            const randomY = minY + Math.random() * (maxY - minY);
 
             // 6. APLICAR EL MOVIMIENTO
-            noButton.style.position = 'fixed'; // Fijo a la pantalla visible
+            noButton.style.position = 'fixed';
             noButton.style.left = randomX + 'px';
             noButton.style.top = randomY + 'px';
-            
-            // Estilos extra para que se vea bien
-            noButton.style.zIndex = '9999'; // Siempre encima de todo
-            noButton.style.transition = 'all 0.3s ease'; // Movimiento suave
+            noButton.style.zIndex = '9999';
+            noButton.style.transition = 'all 0.3s ease';
         };
 
         // Activamos el movimiento al hacer CLICK o TOCAR
