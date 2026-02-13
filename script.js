@@ -12,37 +12,46 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault(); 
             e.stopPropagation();
             
-            // 1. OBTENER TAMAÑOS REALES DE LA PANTALLA
+            // 1. OBTENER TAMAÑOS REALES DE LA PANTALLA VISIBLE
             const screenW = window.innerWidth;
             const screenH = window.innerHeight;
             
-            // 2. OBTENER TAMAÑO DEL BOTÓN (usar getBoundingClientRect para mayor precisión)
-            const btnRect = noButton.getBoundingClientRect();
-            const btnW = btnRect.width;
-            const btnH = btnRect.height;
+            // 2. TAMAÑO FIJO DEL BOTÓN (aproximado, para cálculos seguros)
+            // Usamos 180px de ancho (del CSS) + un poco de margen por el borde
+            const btnW = 200; // Ancho aproximado con bordes
+            const btnH = 80;  // Alto aproximado con padding y bordes
 
-            // 3. MARGEN DE SEGURIDAD (PADDING)
-            const padding = 20;
+            // 3. MARGEN DE SEGURIDAD
+            const padding = 30;
 
-            // 4. CALCULAR EL RANGO VÁLIDO
-            // La posición mínima es el padding
+            // 4. CALCULAR LÍMITES SEGUROS
             const minX = padding;
             const minY = padding;
-            
-            // La posición máxima es: pantalla - tamaño del botón - padding
             const maxX = screenW - btnW - padding;
             const maxY = screenH - btnH - padding;
 
-            // 5. GENERAR POSICIÓN ALEATORIA DENTRO DEL RANGO
-            // Math.random() genera un número entre 0 y 1
-            // Lo multiplicamos por el rango (max - min) y le sumamos min
+            // 5. VALIDAR que hay espacio suficiente (pantallas muy pequeñas)
+            if (maxX < minX || maxY < minY) {
+                console.log("Pantalla muy pequeña, botón se queda en el centro");
+                noButton.style.position = 'fixed';
+                noButton.style.left = '50%';
+                noButton.style.top = '50%';
+                noButton.style.transform = 'translate(-50%, -50%)';
+                noButton.style.zIndex = '9999';
+                return;
+            }
+
+            // 6. GENERAR POSICIÓN ALEATORIA SEGURA
             const randomX = minX + Math.random() * (maxX - minX);
             const randomY = minY + Math.random() * (maxY - minY);
 
-            // 6. APLICAR EL MOVIMIENTO
+            console.log(`Moviendo botón a: X=${randomX.toFixed(0)}px, Y=${randomY.toFixed(0)}px (Pantalla: ${screenW}x${screenH})`);
+
+            // 7. APLICAR EL MOVIMIENTO
             noButton.style.position = 'fixed';
             noButton.style.left = randomX + 'px';
             noButton.style.top = randomY + 'px';
+            noButton.style.transform = 'none'; // Quitar cualquier transform previo
             noButton.style.zIndex = '9999';
             noButton.style.transition = 'all 0.3s ease';
         };
